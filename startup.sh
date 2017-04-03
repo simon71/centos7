@@ -9,4 +9,8 @@ sudo yum -y install vim
 
 cd ~
 
-git clone 
+sudo mkdir git
+
+cd git/
+
+git clone  
