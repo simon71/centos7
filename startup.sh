@@ -5,12 +5,12 @@ sudo yum -y update
 sudo yum -y upgrade
 sudo yum -y clean all
 
-sudo yum -y install vim
+sudo yum -y install vim git
 
 cd ~
 
 sudo mkdir git
-
+git
 cd git/
 
 # fetch .vimrc
