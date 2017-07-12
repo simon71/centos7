@@ -7,12 +7,19 @@ sudo yum -y clean all
 
 pw=$(date +%s | sha256sum | base64 | head -c 32 ; echo)
 
-echo "creating user account simon71"
-/usr/sbin/useradd simon71 -g vagrant -G wheel
-echo "the password is $pw"
-echo "$pw"|passwd --stdin vagrant
-echo "simon71        ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers.d/vagrant
-chmod 0440 /etc/sudoers.d/vagrant
+usr=$(cat /etc/passwd | grep simon71)
+
+if [ -z $usr ];
+then
+	echo "creating user account simon71"
+	/usr/sbin/useradd simon71 -g vagrant -G wheel
+	echo "the password is $pw"
+	echo "$pw"|passwd --stdin vagrant
+	echo "simon71        ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers.d/vagrant
+	chmod 0440 /etc/sudoers.d/vagrant
+else
+	echo "the user simon71 already exists"
+fi
 #
 # check=$(yum list installed | grep vim)
 #
