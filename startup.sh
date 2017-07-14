@@ -29,30 +29,34 @@ else
 	echo "the user simon71 already exists"
 fi
 
+# copy file to simon71 home dir
+sudo cp -r centos7/ /home/simon71/centos7 && sudo chown simon71:mainAdmin /home/simon71/centos7
+
 sudo su simon71
 
-echo who am i
-# # Check if vim is installed
-# check=$(yum list installed | grep vim)
-#
-# # if not install
-# if [ -z "$check" ]; then
-# 	echo "installing vim..."
-# 	sudo yum -y install vim
-# else
-# 	echo "vim already installed"
-# fi
-#
-# # copy to home folder
-# cp ./centos7/.vimrc ~/.vimrc
-#
-# cp centos7/autoload ~/.vim/autoload
-#
-# # Install pathogen
-# mkdir -p ~/.vim/autoload ~/.vim/bundle
-# curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim --insecure
-#
-# # install nerdtree
-# git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree
-# #update PS1 cant get it to work
-# P1="\[\033[1;93m\] \\A \\u \\w \[\033[0;96m\]$\[\033[0;37m\]"
+cd /
+
+# Check if vim is installed
+check=$(yum list installed | grep vim)
+
+# if not install
+if [ -z "$check" ]; then
+	echo "installing vim..."
+	sudo yum -y install vim
+else
+	echo "vim already installed"
+fi
+
+# copy to home folder
+cp ./centos7/.vimrc ~/.vimrc
+
+cp centos7/autoload ~/.vim/autoload
+
+# Install pathogen
+mkdir -p ~/.vim/autoload ~/.vim/bundle
+curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim --insecure
+
+# install nerdtree
+git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree
+#update PS1 cant get it to work
+P1="\[\033[1;93m\] \\A \\u \\w \[\033[0;96m\]$\[\033[0;37m\]"
