@@ -1,4 +1,4 @@
-set nocompatible 
+set nocompatible
 autocmd! bufwritepost $HOME/simon/.vimrc source %
 
 
@@ -82,7 +82,7 @@ set t_Co=256
 color evening
 
 if &t_Co >= 256 || has("gui_running")
-    colorscheme wombat256mod
+    colorscheme evening
 endif
 
 if &t_Co > 2 || has("gui_running")
@@ -202,7 +202,7 @@ augroup vimrcEx
   autocmd FileType puppet,ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
   autocmd FileType python set sw=4 sts=4 et
 
-  autocmd! BufRead,BufNewFile *.sass setfiletype sass 
+  autocmd! BufRead,BufNewFile *.sass setfiletype sass
 
   autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
   autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
