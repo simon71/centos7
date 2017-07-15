@@ -11,6 +11,10 @@ pw=$(date +%s | sha256sum | base64 | head -c 8 ; echo)
 # check if simon71 already exists
 usr=$(cat /etc/passwd | grep simon71)
 
+hmdir=/home/simon71/
+
+cent=/home/simon71/centos7
+
 # if usr is empty then create account
 if [ -z $usr ];
 then
@@ -29,12 +33,21 @@ else
 	echo "the user simon71 already exists"
 fi
 
+echo "copying centos7 to $cent"
 # copy file to simon71 home dir
-sudo cp -r centos7/ /home/simon71/centos7 && sudo chown simon71:mainAdmin /home/simon71/centos7
+sudo cp -r centos7/ $cent && sudo chown simon71:mainAdmin $cent
+
+if [[ -e $cent ]]; then
+	echo "file copied sucessfully"
+else
+	echo "file failed to copy"
+	exit 1
+fi
 
 sudo su simon71
+echo "changed to $USER"
 
-cd /
+cd $hmdir
 
 # Check if vim is installed
 check=$(yum list installed | grep vim)
@@ -48,7 +61,7 @@ else
 fi
 
 # copy to home folder
-cp ./centos7/.vimrc ~/.vimrc
+cp $cent/vim/.vimrc $hmdir.vimrc
 
 cp centos7/autoload ~/.vim/autoload
 
