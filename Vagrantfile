@@ -65,36 +65,49 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   
-  # ssh key configuration
-  config.vm.provision "shell" do |s|
-    ssh_pub_key = File.readlines('h:\.ssh\vagrant\centos7_rsa.pub').first.strip
-    s.inline = <<-SHELL
-     echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
-     SHELL
-     end
+  # ssh key configuration for windows only
+  #config.vm.provision "shell" do |s|
+  #  ssh_pub_key = File.readlines('h:\.ssh\vagrant\centos7_rsa.pub').first.strip
+  #  s.inline = <<-SHELL
+  #   echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+  #   SHELL
+  #   end
   
   config.vm.provision "shell", inline: <<-SHELL
-     CHECK="$(sudo yum list | grep vim)"
+     CHECK="$(sudo yum list installed | grep ^git)"
      if [ -z "$CHECK" ]; 
      	then
      		yum install -y git
      	else
      		echo "git is already installed"
-     	fi
+     fi
      SHELL
 
   config.vm.provision "shell", inline: <<-SHELL
-    if [ -e /centos7 ];
-    then
-    	echo "deleting existing dir"
-    	rm -fr /centos7
-    	cd /
-    	echo $PWD
-    	echo "cloning git repo"
-    	git clone https://github.com/simon71/centos7
-    	echo "copying startup.sh to home folder"
-    	cp /centos7/startup.sh /startup.sh
-	chmod u+x startup.sh
+    # if git doesn't exist create it and clone in the centos7 repo
+    if [ ! -e /home/vagrant/git ];
+      then
+        echo "creating git dir"
+        sudo mkdir /home/vagrant/git
+        cd /home/vagrant/git
+        echo "cloning centos7 repo"
+        git clone https://github.com/simon71/centos7.git
+        echo "copying startup.sh to home folder"
+        cp /home/vagrant/git/centos7/startup.sh /home/vagrant/startup.sh
+	    chmod u+x /home/vagrant/startup.sh
+        chown vagrant:vagrant /home/vagrant/startup.sh
+
+    # if the git directory does already exist, then only replace centos7 dir
+    # not the whole git dir
+      else
+        echo "replacing existing centos7 dir"
+        sudo rm -fr home/vagrant/git/centos7
+        echo "updating centos7 repo"
+        git clone https://github.com/simon71/centos7.git /home/vagrant/git
+        echo "updating startup.sh"
+        cp /home/vagrant/git/centos7/startup.sh /home/vagrant/startup.sh
+        chmod u+x /home/vagrant/startup.sh
+        chown vagrant:vagrant /home/vagrant/startup.sh
     fi
     SHELL
 end

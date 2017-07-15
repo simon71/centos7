@@ -35,12 +35,12 @@ fi
 
 echo "copying centos7 to $cent"
 # copy file to simon71 home dir
-sudo cp -r centos7/ $cent && sudo chown simon71:mainAdmin $cent
+sudo cp -r /home/vagrant/git/centos7/ $hmdir && sudo chown simon71:mainAdmin $hmdir
 
 if [[ -e $cent ]]; then
-	echo "file copied sucessfully"
+	echo "Dir copied sucessfully"
 else
-	echo "file failed to copy"
+	echo "Dir failed to copy"
 	exit 1
 fi
 
@@ -71,5 +71,6 @@ curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim --insecure
 
 # install nerdtree
 git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree
+
 #update PS1 cant get it to work
 P1="\[\033[1;93m\] \\A \\u \\w \[\033[0;96m\]$\[\033[0;37m\]"
